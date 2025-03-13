@@ -1,7 +1,10 @@
 import asyncio
-import agentops
+from utils import console, OPENAI_API_KEY
+import os
 
-agentops.init()
+# TODO add this later
+#import agentops
+#agentops.init()
 
 from agents import Agent, Runner, WebSearchTool, trace
 
@@ -11,7 +14,6 @@ async def main():
         instructions = "Respond in detail to the question:",
         tools = [
             WebSearchTool(
-
             )
         ]
     )
@@ -24,4 +26,5 @@ async def main():
     print(result.final_output)
 
 if __name__ == "__main__":
+    os.environ['OPENAI_API_KEY'] = OPENAI_API_KEY
     asyncio.run(main())

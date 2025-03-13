@@ -1,2 +1,4 @@
 openai-agents
 agentops
+rich
+dotenv
