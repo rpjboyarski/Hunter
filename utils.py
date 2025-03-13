@@ -8,3 +8,4 @@ console = Console()
 # Read .env to get API keys
 HUNTER_API_KEY = config["HUNTER_API_KEY"]
 OPENAI_API_KEY = config["OPENAI_API_KEY"]
+AGENTOPS_API_KEY = config["AGENTOPS_API_KEY"]

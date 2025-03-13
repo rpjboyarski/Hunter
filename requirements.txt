@@ -2,3 +2,4 @@ openai-agents
 agentops
 rich
 dotenv
+pyfiglet
