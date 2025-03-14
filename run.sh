@@ -1,1 +1,1 @@
-docker run -it -v $(pwd):/hunter --env-file .env 
+docker run -it -v $(pwd):/hunter --env-file .env hunter-llm

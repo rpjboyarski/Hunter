@@ -2,17 +2,17 @@ FROM kalilinux/kali-rolling:amd64
 LABEL authors="ronan"
 
 
-CMD apt-get update
-CMD apt-get install -y cargo
-CMD cargo install -y rustscan
+RUN apt-get update
+RUN apt-get install -y cargo
+RUN cargo install rustscan
 
-CMD apt-get install -y python3 python3-pip
+RUN apt-get install -y python3 python3-pip
 
 WORKDIR /hunter
 
 COPY requirements.txt .
 
-CMD pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir --break-system-packages -r requirements.txt
 
 COPY . .
 
