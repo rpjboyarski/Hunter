@@ -5,3 +5,5 @@ __pycache__/
 .env
 agentops.log
 targets.json
+logs/
+.venv/
