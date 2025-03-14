@@ -32,5 +32,6 @@ AGENTOPS_API_KEY=REDACTED
 ```
 
 ## Usage
-The repository has an included dockerfile to manage all dependencies for you. All you need to do is add your API keys to the .env fil.
-You can start the agent by running "./run.sh". You may need to `chmod +x run.sh` to make it executable.
+The repository has an included dockerfile to manage all dependencies for you. 
+All you need to do is add your API keys to the `.env` file.
+You can start the agent by running `./run.sh`. You may need to `chmod +x run.sh` to make it executable.
