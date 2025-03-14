@@ -32,6 +32,7 @@ AGENTOPS_API_KEY=REDACTED
 ```
 
 ## Usage
-The repository has an included dockerfile to manage all dependencies for you. 
-All you need to do is add your API keys to the `.env` file and build the dockerfile with `docker build -t hunter-llm .`
-You can start the agent by running `./run.sh`. You may need to `chmod +x run.sh` to make it executable.
+After installing `nmap` and `ruststcan` on your host, you need to add your API keys to the `.env` file.
+Then, you can use "python3 main.py" to run Hunter.
+
+We are working on providing Dockerfile support to manage dependencies automagically (Dockerfile + run.sh)
