@@ -106,8 +106,7 @@ def init_db(name):
     global current_engagement
     current_engagement = name
     if not os.path.exists("targets.json"):
-        with open("targets.json", "w") as file:
-            json.dump({k:asdict(v) for k, v in database.items()}, file)
+        save_db()
 
     load_db()
     if name not in database:

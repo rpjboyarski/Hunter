@@ -32,17 +32,56 @@ agent = Agent(
         ],
     )
 
-def query_model(query: str, messages: [], stream=False) -> str:
-    console.print(messages)
+class Hunter():
+    def __init__(self):
+        self.agent = Agent(
+            name = "Hunter",
+            instructions = system_prompt,
+            tools = [
+                rustscan,
+                nmapscan,
+                ping_network,
+                hunter_llm,
+                shodan_get_host_data,
+            ],
+        )
 
-    # result = Runner.run_sync(
-    #     agent,
-    #     input = query,
-    #     context = messages
-    # )
-    result = Runner.run_sync(agent, query)
+        self.initial_messages = [
+            {'role': 'system', 'content': system_prompt},
+        ]
 
-    return result.final_output
+        self.result = None
+
+    def start_run(self):
+        username = os.getenv("USER", "user")
+        initial_greeting = f"Hello, {username}. Ready to cause some [bold red]chaos[/bold red]?"
+
+        # Display initial greeting
+        console.print(Panel(initial_greeting, title=ai_name, border_style="green", padding=(1, 2)))
+        console.print("[bold cyan]Type 'quit' to exit the chatbot[/bold cyan]")
+        console.print("[bold cyan]Type 'reset' to start a new conversation[/bold cyan]")
+        console.print(f"[bold cyan]Type 'thinking' to toggle thinking window (currently [{'green' if show_thinking else 'red'}]{'ON' if show_thinking else 'OFF'}[/{'green' if show_thinking else 'red'}])[/bold cyan]")
+
+
+        query = console.input("[bold blue]You:[/bold blue] ")
+        if query.lower() == "quit":
+            leave_chat()
+            return
+        self.result = Runner.run_sync(agent, query)
+
+    def run(self):
+        if not self.result:
+            self.start_run()
+
+        while True:
+            new_query = console.input("[bold blue]You:[/bold blue] ")
+            if new_query.lower() == "quit":
+                leave_chat()
+            new_input = self.result.to_input_list() + [{"role": "user", "content": new_query}]
+            result = Runner.run_sync(agent, new_input)
+            console.print(result.final_output)
+
+
 
 
 def chat_interface():
