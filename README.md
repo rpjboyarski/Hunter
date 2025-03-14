@@ -32,5 +32,5 @@ AGENTOPS_API_KEY=REDACTED
 ```
 
 ## Usage
-Enter the virtualenv with `source .venv/bin/activate`. Then, usage is as easy as `python3 main.py`.
-You will be prompted to enter an engagement name - this can be whatever you want, it exists solely to track actions in the database.
+The repository has an included dockerfile to manage all dependencies for you. All you need to do is add your API keys to the .env fil.
+You can start the agent by running "./run.sh". You may need to `chmod +x run.sh` to make it executable.
