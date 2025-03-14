@@ -1,5 +1,7 @@
 from agents import function_tool
 import subprocess
+
+from database import add_host
 from utils import console
 from utils import HUNTER_API_KEY
 import base64
@@ -20,6 +22,7 @@ def rustscan(host: str) -> str:
     console.print(f"[bold blue][*][/bold blue] Scanning host {host} with Rustscan")
     result = subprocess.run(f"rustscan -a {host} --ulimit 5000 --greppable", shell=True, capture_output=True)
     console.print(f"[bold green][+][/bold green] Scan complete")
+    result = result.stdout.decode("utf-8")
     print(result.stdout.decode("utf-8"))
     return result.stdout.decode("utf-8")
 
@@ -61,7 +64,11 @@ def ping_network(subnet: str) -> [str]:
         if result[i] == "":
             result.pop(i)
     console.print(f"[bold green][+][/bold green] Ping complete")
-    print(result)
+
+    for ip in result:
+        add_host(ip)
+
+    console.print(f"[bold green][+][/bold green] Added {len(result)} hosts to the database")
     return result
 
 

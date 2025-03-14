@@ -1,3 +1,4 @@
+from database import init_db
 from utils import console, OPENAI_API_KEY, HUNTER_API_KEY, AGENTOPS_API_KEY
 import os
 from rich import print
@@ -7,6 +8,7 @@ from prompting import *
 from agents import Agent, Runner
 from openai import chat
 import readline
+from database import init_db
 
 
 from tools import rustscan, nmapscan, ping_network, hunter_llm, shodan_get_host_data
@@ -18,8 +20,7 @@ system_prompt = system_prompt_from_template(system_prompt_template, user_system_
 ai_name = "Hunter"
 show_thinking = False
 
-def query_model(query: str, messages: [], stream=False) -> str:
-    agent = Agent(
+agent = Agent(
         name = "Hunter",
         instructions = system_prompt,
         tools = [
@@ -31,11 +32,15 @@ def query_model(query: str, messages: [], stream=False) -> str:
         ],
     )
 
-    result = Runner.run_sync(
-        agent,
-        input = query,
-        context = messages
-    )
+def query_model(query: str, messages: [], stream=False) -> str:
+    console.print(messages)
+
+    # result = Runner.run_sync(
+    #     agent,
+    #     input = query,
+    #     context = messages
+    # )
+    result = Runner.run_sync(agent, query)
 
     return result.final_output
 
@@ -46,6 +51,7 @@ def chat_interface():
     username = os.getenv("USER", "user")
     initial_greeting = f"Hello, {username}. Ready to cause some [bold red]chaos[/bold red]?"
     messages = get_initial_messages()
+    query = []
 
     # Display initial greeting
     console.print(Panel(initial_greeting, title=ai_name, border_style="green", padding=(1, 2)))
@@ -53,6 +59,14 @@ def chat_interface():
     console.print("[bold cyan]Type 'reset' to start a new conversation[/bold cyan]")
     console.print(f"[bold cyan]Type 'thinking' to toggle thinking window (currently [{'green' if show_thinking else 'red'}]{'ON' if show_thinking else 'OFF'}[/{'green' if show_thinking else 'red'}])[/bold cyan]")
 
+    query = console.input("[bold blue]You:[/bold blue] ")
+    result = Runner.run_sync(agent, query)
+    while True:
+        new_query = console.input("[bold blue]You:[/bold blue] ")
+        new_input = result.to_input_list() + [{"role": "user", "content": new_query}]
+        result = Runner.run_sync(agent, new_input)
+        console.print(result.final_output)
+        
     while True:
         try:
             query = console.input("[bold blue]You:[/bold blue] ")
@@ -139,5 +153,7 @@ if __name__ == "__main__":
     print_banner()
     console.print("[bold]Welcome to [red]HUNTER[/red] - Autonomous network reconnaissance agent[/bold]",
                   justify="center")
+    engagement = console.input("[bold]Enter the engagement name:[/bold] ")
+    init_db(engagement)
     main()
     leave_chat()
