@@ -33,5 +33,5 @@ AGENTOPS_API_KEY=REDACTED
 
 ## Usage
 The repository has an included dockerfile to manage all dependencies for you. 
-All you need to do is add your API keys to the `.env` file.
+All you need to do is add your API keys to the `.env` file and build the dockerfile with `docker build -t hunter-llm .`
 You can start the agent by running `./run.sh`. You may need to `chmod +x run.sh` to make it executable.
