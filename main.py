@@ -66,7 +66,7 @@ def chat_interface():
         new_input = result.to_input_list() + [{"role": "user", "content": new_query}]
         result = Runner.run_sync(agent, new_input)
         console.print(result.final_output)
-        
+
     while True:
         try:
             query = console.input("[bold blue]You:[/bold blue] ")

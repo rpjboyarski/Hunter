@@ -69,15 +69,17 @@ database = {}
 current_engagement = ""
 
 def load_db():
+    global database
     with open("targets.json", "r") as file:
-        return {k: EngagementContext.from_dict(v) for k, v in json.load(file).items()}
+        # will union with existing, overwriting existing keys
+        database |= {k: EngagementContext.from_dict(v) for k, v in json.load(file).items()}
+    return database
 
 def save_db():
     with open("targets.json", "w") as file:
         json.dump({k:v.to_dict() for k,v in database.items()}, file, indent=4)
 
 def add_host(ip: str, hostname: str = None, services: list = None, os_version: str = None):
-    global current_engagement
     if current_engagement not in database:
         raise ValueError("Engagement context not initialized")
 
