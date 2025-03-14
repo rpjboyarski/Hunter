@@ -1,7 +1,7 @@
 # HUNTER
 ## Agentic Autonomous Network Reconaissance Tool
 **Hunter** is an AI agent designed for autonomous network reconaissance of both external and internal networks. 
-It uses OpenAI's Agents SDK and AgentOps for tool calling.
+It uses OpenAI's Agents SDK and AgentOps for tool calling. Note that this tool was created in three hours as a proof of concept for AgentOps Hack Night at UIUC. 
 
 ## 🛠️ Supported Tools
 **Nmap**: For scanning internal networks
