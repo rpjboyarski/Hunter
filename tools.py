@@ -36,7 +36,7 @@ def nmapscan(host: str, args: str) -> str:
     :param args: The arguments to pass to nmap.
     :return: The result of the scan.
     """
-    command = f"nmap -v {args} {host} -oN logs/{host}_nmapscan_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.txt"
+    command = f"nmap -v {args} {host} -oN {host}_nmapscan_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.txt"
     console.print(f"[bold blue][*][/bold blue] Scanning host {host} with: {command}")
     result = subprocess.run(command, shell=True, capture_output=True)
     console.print(f"[bold green][+][/bold green] Scan complete")
@@ -56,7 +56,7 @@ def ping_network(subnet: str) -> [str]:
     :return: A list of each identified host on the subnet.
     """
     console.print(f"[bold blue][*][/bold blue] Pinging subnet {subnet}")
-    result = subprocess.run("nmap -n -sn " + subnet + " -T5 -oG - | awk '/Up$/{print $2}'" + f" | tee logs/ping_scan_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}", shell=True,
+    result = subprocess.run("nmap -n -sn " + subnet + " -T5 -oG - | awk '/Up$/{print $2}'", shell=True,
                             capture_output=True)
     print(result.stdout.decode("utf-8"))
     result = result.stdout.decode("utf-8").split("\n")
