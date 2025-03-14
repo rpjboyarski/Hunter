@@ -1,0 +1,1 @@
+docker run -it -v $(pwd):/hunter --env-file .env 
